@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./second.css";
 
 export default function Register({ registerUser }) {
   const [data, setData] = useState({ email: "", username: "", password: "" });
@@ -11,10 +12,10 @@ export default function Register({ registerUser }) {
   }
 
   return (
-    <div class="form-container">
+    <div className="form-container">
       <form onSubmit={handlerSubmit}>
         <h1>Register</h1>
-        <label for="username">Username</label>
+        <label>Username</label>
         <input
           type="text"
           id="username"
@@ -23,7 +24,7 @@ export default function Register({ registerUser }) {
           required
           onInput={(e) => setData({ ...data, username: e.target.value })}
         />
-        <label for="email">Email</label>
+        <label>Email</label>
         <input
           type="email"
           id="email"
@@ -32,7 +33,7 @@ export default function Register({ registerUser }) {
           required
           onInput={(e) => setData({ ...data, email: e.target.value })}
         />
-        <label for="password">Password</label>
+        <label>Password</label>
         <input
           type="password"
           id="password"

@@ -1,37 +1,30 @@
 import { useNavigate } from "react-router-dom";
 import TodoList from "./TodoList";
-import { useEffect } from "react";
 import "./item.css";
+import { useEffect, useState } from "react";
 
-export default function TodoBox({ isLoggedIn, setIsLoggedIn }) {
+export default function TodoBox() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsloggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("authorization");
-
-    // Jika tidak ada token, navigasikan ke login dan atur isLoggedIn menjadi false
-    if (!token) {
-      setIsLoggedIn(false); // Ubah ke false
-      navigate("/login");
-    } else {
-      setIsLoggedIn(true); // Ubah ke true jika token ada
+    async function checkAuthentication() {
+      const token = await localStorage.getItem("accessToken");
+      console.log(token);
+      if (!token) {
+        navigate("/login");
+        setIsloggedIn(false);
+      }
+      setIsloggedIn(true);
     }
-  }, [setIsLoggedIn, navigate]);
 
-  if (isLoggedIn) {
-    return (
-      <>
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Cari tugas..."
-          />
-        </div>
-        <TodoList />
-      </>
-    );
-  }
+    checkAuthentication();
+  }, [navigate]);
 
-  return null;
+  if (isLoggedIn === null) return null;
+  return (
+    <>
+      {isLoggedIn && <TodoList />} {/* Render TodoList jika terautentikasi */}
+    </>
+  );
 }
